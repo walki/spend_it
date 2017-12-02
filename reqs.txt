@@ -1,0 +1,39 @@
+https://www.obeythetestinggoat.com/book/pre-requisite-installations.html
+
+python 3.6
+firefox
+selenium
+geckodriver
+virtualenv
+django
+
+
+roger@Blockbox MINGW64 ~/projects/spend_it_web
+$ source virtualenv/Scripts/activate
+
+
+Functional Tests == Acceptance Test == End-to-End
+Test a User Story from User Perspective
+
+Unit Test = Test the code
+
+Django Project:
+django-admin.py startproject spendit .
+
+
+Django App:
+python manage.py startapp spend
+
+TODO: Learn difference between django project and django app
+
+TDD Workflow
+1. Write a functional test, describing the new functionality from the user’s point of view.
+2. Think about how to write code that can get the FT to pass
+	Write one or more unit tests to define how we want our code to behave.
+	The idea is that each line of production code we write should be tested by (at least) one of our unit tests.
+3. Failing unit test, we write the smallest amount of application code we can, just enough to get the unit test to pass.
+	 Iterate between steps 2 and 3 a few times, until we think the functional test will get a little further.
+Rerun our functional tests and see if they pass, or get a little further. That may prompt us to write some new unit tests, and some new code, and so on.
+
+Functional Tests -> ./functional_test.py
+Unit Tests -> ./spend/tests.py
