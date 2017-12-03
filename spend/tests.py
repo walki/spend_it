@@ -21,6 +21,14 @@ class HomePageTest(TestCase):
 		self.assertEqual(Expense.objects.count(), 1)
 		new_expense = Expense.objects.first()
 		self.assertEqual(new_expense.location, "A new expense")
+		
+	def test_can_save_a_POST_request_with_date(self):
+		self.client.post('/', data={'expense_where': 'A new expense', 'expense_date': '12-31-2001'})
+		
+		self.assertEqual(Expense.objects.count(), 1)
+		new_expense = Expense.objects.first()
+		self.assertEqual(new_expense.date, '12-31-2001')
+		
 
 	def test_redirects_after_a_POST_request(self):
 		response = self.client.post('/', data={'expense_where': 'A new expense'})
@@ -41,6 +49,14 @@ class HomePageTest(TestCase):
 		self.assertIn('exp 1', response.content.decode())
 		self.assertIn('exp 2', response.content.decode())
 		
+	def test_displays_expenses_with_dates(self):
+		Expense.objects.create(location='exp 1', date='1-10-2018')
+		
+		response = self.client.get('/')
+		
+		self.assertIn('exp 1', response.content.decode())
+		self.assertIn('1-10-2018', response.content.decode())
+		
 
 class ExpenseModelTest(TestCase):
 
@@ -60,3 +76,17 @@ class ExpenseModelTest(TestCase):
 		second_saved_expense = saved_expenses[1]
 		self.assertEqual(first_saved_expense.location, 'The first (ever) expense!')
 		self.assertEqual(second_saved_expense.location, 'The Second')
+		
+	def test_saving_and_retrieving_expense_with_location_and_date(self):
+		expense = Expense()
+		expense.location = "The Location"
+		expense.date = "1-2-2001"
+		expense.save()
+		
+		saved_expenses = Expense.objects.all()
+		self.assertEqual(saved_expenses.count(), 1)
+		saved_expense = saved_expenses.first()
+		
+		self.assertEqual(saved_expense.location, "The Location")
+		self.assertEqual(saved_expense.date, "1-2-2001")
+		
