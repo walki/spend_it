@@ -1,8 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+
+from spend.models import Expense
 
 # Create your views here.
 def home_page(request):
-	return render(request, 'home.html', {
-		'new_item_expense_where': request.POST.get('item_expense_where','')
-	})
+	if request.method == 'POST':
+		Expense.objects.create(text = request.POST['item_expense_where'])
+		return redirect('/')
+	
+	expenses = Expense.objects.all()
+	return render(request, 'home.html', { 'expenses': expenses })

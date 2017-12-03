@@ -24,7 +24,7 @@ django-admin.py startproject spendit .
 Django App:
 python manage.py startapp spend
 
-TODO: Learn difference between django project and django app
+
 
 TDD Workflow
 1. Write a functional test, describing the new functionality from the user’s point of view.
@@ -58,4 +58,29 @@ The unit-test/code cycle
 2. Make a minimal code change in the editor.
 3. Repeat!
 
-Need to review Selenium for how to instrument items in the browser!
+
+
+Djanog
+.objects - query the database,
+.all() all the entries -> QuerySet
+.count() ...
+
+leftover test items are in the db...
+Manual Clean up: 
+$ rm db.sqlite3
+$ python manage.py migrate --noinput
+
+TODOs:
+=======
+TODO: Learn difference between django project and django app
+TODO: Need to review Selenium for how to instrument items in the browser!
+
+ensure expenses are named properly, models, views, tests etc.
+Expense needs date, where, category, amount... only has text!
+display multiple items in table
+support more than one group of expenses
+support accounts
+support sharing accounts
+
+
+

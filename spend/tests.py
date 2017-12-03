@@ -16,9 +16,30 @@ class HomePageTest(TestCase):
 		self.assertTemplateUsed(response, 'home.html')
 		
 	def test_can_save_a_POST_request(self):
+		self.client.post('/', data={'item_expense_where': 'A new expense'})
+		
+		self.assertEqual(Expense.objects.count(), 1)
+		new_expense = Expense.objects.first()
+		self.assertEqual(new_expense.text, "A new expense")
+
+	def test_redirects_after_a_POST_request(self):
 		response = self.client.post('/', data={'item_expense_where': 'A new expense'})
-		self.assertIn('A new expense', response.content.decode())
-		self.assertTemplateUsed(response, 'home.html')
+		
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(response['location'], '/')
+		
+	def test_only_saves_items_when_necessary(self):
+		self.client.get('/')
+		self.assertEqual(Expense.objects.count(), 0)
+
+	def test_displays_all_expenses(self):
+		Expense.objects.create(text='exp 1')
+		Expense.objects.create(text='exp 2')
+		
+		response = self.client.get('/')
+		
+		self.assertIn('exp 1', response.content.decode())
+		self.assertIn('exp 2', response.content.decode())
 		
 
 class ExpenseModelTest(TestCase):

@@ -9,7 +9,9 @@
 			{% csrf_token %}
 		</form>
 		<table id="id_expense_table">
-			<tr><td>1: 1-1-2018 {{ new_item_expense_where }} 10.00</td></tr>
+			{% for expense in expenses %}
+			<tr><td>{{ forloop.counter }}: 1-1-2018 {{ expense.text }} 10.00</td></tr>
+			{% endfor %}
 		</table>
 	</body>
 </html>
