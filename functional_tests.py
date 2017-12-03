@@ -12,6 +12,12 @@ class NewVisitorTest(unittest.TestCase):
 	def tearDown(self):
 		self.browser.quit()
 		
+		
+	def check_for_row_in_expense_table(self, row_text):
+		table = self.browser.find_element_by_id('id_expense_table')
+		rows = table.find_elements_by_tag_name('tr')
+		self.assertIn(row_text, [row.text for row in rows])
+		
 	def test_can_start_adding_expenses_and_retrieve_later(self):
 		# Andrea wants to help with the budget using a cool new expesne tracking software
 		# She goes to its homepage 
@@ -36,10 +42,7 @@ class NewVisitorTest(unittest.TestCase):
 		# "1/1/2018 Heniens 10.00" as an item that has been added as an expense
 		inputbox.send_keys(Keys.ENTER)
 		time.sleep(1)
-		
-		table = self.browser.find_element_by_id('id_expense_table')
-		rows = table.find_elements_by_tag_name('tr')
-		self.assertIn('1-1-2018 Heinens 10.00', [row.text for row in rows])
+		self.check_for_row_in_expense_table('1: 1-1-2018 Heinens 10.00')
 		
 		# There is still an a text box inviting to add another expense.
 		# She enters "Target" as she frequently shops there also.
@@ -49,10 +52,8 @@ class NewVisitorTest(unittest.TestCase):
 		time.sleep(1)
 
 		# The page updates again, and both expenses are listed
-		table = self.browser.find_element_by_id('id_expense_table')
-		rows = table.find_elements_by_tag_name('tr')
-		self.assertIn('1-1-2018 Heinens 10.00', [row.text for row in rows])
-		self.assertIn('2-1-2018 Target 10.00', [row.text for row in rows])
+		self.check_for_row_in_expense_table('1: 1-1-2018 Heinens 10.00')
+		self.check_for_row_in_expense_table('2: 1-1-2018 Target 10.00')		
 		
 		# Andrea wonders whether the expenses are saved. She notices that in th first go through, expense are added per unique URL,
 		# there is some text explaining that
