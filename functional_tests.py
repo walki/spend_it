@@ -21,8 +21,7 @@ class NewVisitorTest(unittest.TestCase):
 		self.assertIn('Spend It!', self.browser.title)
 		header_text = self.browser.find_element_by_tag_name('h1').text
 		self.assertIn('Spend It!', header_text)
-		self.fail('Finish the Test!')
-
+		
 		# She is invited to add an expense right away
 		inputbox = self.browser.find_element_by_id('id_new_expense')
 		self.assertEqual(
