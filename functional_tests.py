@@ -39,19 +39,25 @@ class NewVisitorTest(unittest.TestCase):
 		
 		table = self.browser.find_element_by_id('id_expense_table')
 		rows = table.find_elements_by_tag_name('tr')
-		self.assertTrue(
-			any(row.text == '1/1/2018 Heniens 10.00' for row in rows)
-		)
+		self.assertIn('1-1-2018 Heinens 10.00', [row.text for row in rows])
 		
 		# There is still an a text box inviting to add another expense.
 		# She enters "Target" as she frequently shops there also.
-		self.fail('Finish the test!')
+		inputbox = self.browser.find_element_by_id('id_new_expense')
+		inputbox.send_keys('Target')
+		inputbox.send_keys(Keys.ENTER)
+		time.sleep(1)
 
 		# The page updates again, and both expenses are listed
-
+		table = self.browser.find_element_by_id('id_expense_table')
+		rows = table.find_elements_by_tag_name('tr')
+		self.assertIn('1-1-2018 Heinens 10.00', [row.text for row in rows])
+		self.assertIn('2-1-2018 Target 10.00', [row.text for row in rows])
+		
 		# Andrea wonders whether the expenses are saved. She notices that in th first go through, expense are added per unique URL,
 		# there is some text explaining that
-
+		self.fail('Finish the test!')
+		
 		# She visits the URL and her expenses are still there
 
 		# Satisfied, she leave

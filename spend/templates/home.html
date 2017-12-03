@@ -4,8 +4,12 @@
 	</head>
 	<body>
 		<h1>Let's Spend It!</h1>
-		<input id="id_new_expense" placeholder="Enter an expense"/>
+		<form method="POST">
+			<input name="item_expense_where" id="id_new_expense" placeholder="Enter an expense"/>
+			{% csrf_token %}
+		</form>
 		<table id="id_expense_table">
+			<tr><td>1-1-2018 {{ new_item_expense_where }} 10.00</td></tr>
 		</table>
 	</body>
 </html>
