@@ -35,5 +35,27 @@ TDD Workflow
 	 Iterate between steps 2 and 3 a few times, until we think the functional test will get a little further.
 Rerun our functional tests and see if they pass, or get a little further. That may prompt us to write some new unit tests, and some new code, and so on.
 
-Functional Tests -> ./functional_test.py
+Functional Tests -> ./functional_tests.py
+Run by invoking directly
+>python functional_tests.py
+
 Unit Tests -> ./spend/tests.py
+Run using Django test runner
+python manage.py test
+
+Useful Commands and Concepts
+Running the Django dev server
+python manage.py runserver
+
+Running the functional tests
+python functional_tests.py
+
+Running the unit tests
+python manage.py test
+
+The unit-test/code cycle
+1. Run the unit tests in the terminal.
+2. Make a minimal code change in the editor.
+3. Repeat!
+
+Need to review Selenium for how to instrument items in the browser!

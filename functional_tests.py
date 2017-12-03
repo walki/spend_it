@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
 import unittest
 
 
@@ -17,17 +19,34 @@ class NewVisitorTest(unittest.TestCase):
 
 		# She notices that the page title and header mention Spend It!
 		self.assertIn('Spend It!', self.browser.title)
+		header_text = self.browser.find_element_by_tag_name('h1').text
+		self.assertIn('Spend It!', header_text)
 		self.fail('Finish the Test!')
 
 		# She is invited to add an expense right away
+		inputbox = self.browser.find_element_by_id('id_new_expense')
+		self.assertEqual(
+			inputbox.get_attribute('placeholder'),
+			'Enter an expense'
+		)
 
 		# She adds "Heinens" into a text box, as it is here favorite grocery store
+		inputbox.send_keys('Heinens')
 
 		# When she hits enter the page updates, and now the page lists
 		# "1/1/2018 Heniens 10.00" as an item that has been added as an expense
-
+		inputbox.send_keys(Keys.ENTER)
+		time.sleep(1)
+		
+		table = self.browser.find_element_by_id('id_expense_table')
+		rows = table.find_elements_by_tag_name('tr')
+		self.assertTrue(
+			any(row.text == '1/1/2018 Heniens 10.00' for row in rows)
+		)
+		
 		# There is still an a text box inviting to add another expense.
 		# She enters "Target" as she frequently shops there also.
+		self.fail('Finish the test!')
 
 		# The page updates again, and both expenses are listed
 
