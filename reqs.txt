@@ -70,6 +70,12 @@ Manual Clean up:
 $ rm db.sqlite3
 $ python manage.py migrate --noinput
 
+Python List Comprehension
+[ expression for item in list if conditional ]
+Example:
+odd_squares = [ x**2 for x in range(10) if x % 2 == 1 ]
+
+
 TODOs:
 =======
 TODO: Learn difference between django project and django app
@@ -77,10 +83,16 @@ TODO: Need to review Selenium for how to instrument items in the browser!
 
 ensure expenses are named properly, models, views, tests etc.
 Expense needs date, where, category, amount... only has text!
-display multiple items in table
 support more than one group of expenses
 support accounts
 support sharing accounts
+clean up after FT runs
+
+Expense
+--location
+--date
+--category
+--amount
 
 
 

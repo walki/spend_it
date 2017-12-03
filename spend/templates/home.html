@@ -5,12 +5,12 @@
 	<body>
 		<h1>Let's Spend It!</h1>
 		<form method="POST">
-			<input name="item_expense_where" id="id_new_expense" placeholder="Enter an expense"/>
+			<input name="expense_where" id="id_new_expense" placeholder="Enter an expense"/>
 			{% csrf_token %}
 		</form>
 		<table id="id_expense_table">
 			{% for expense in expenses %}
-			<tr><td>{{ forloop.counter }}: 1-1-2018 {{ expense.text }} 10.00</td></tr>
+			<tr><td>{{ forloop.counter }}: 1-1-2018 {{ expense.location }} 10.00</td></tr>
 			{% endfor %}
 		</table>
 	</body>
