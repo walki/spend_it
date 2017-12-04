@@ -1,10 +1,11 @@
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
-import unittest
 
 
-class NewVisitorTest(unittest.TestCase):
+
+class NewVisitorTest(LiveServerTestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -21,7 +22,7 @@ class NewVisitorTest(unittest.TestCase):
 	def test_can_start_adding_expenses_and_retrieve_later(self):
 		# Andrea wants to help with the budget using a cool new expesne tracking software
 		# She goes to its homepage 
-		self.browser.get('http://localhost:8000')
+		self.browser.get(self.live_server_url)
 
 		# She notices that the page title and header mention Spend It!
 		self.assertIn('Spend It!', self.browser.title)
@@ -75,5 +76,3 @@ class NewVisitorTest(unittest.TestCase):
 
 		# Satisfied, she leave
 		
-if __name__ == '__main__':
-	unittest.main(warnings='ignore')
