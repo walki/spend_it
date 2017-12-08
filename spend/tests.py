@@ -34,7 +34,7 @@ class HomePageTest(TestCase):
 		response = self.client.post('/', data={'expense_where': 'A new expense'})
 		
 		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/')
+		self.assertEqual(response['location'], '/spends/the-only-list/')
 		
 	def test_only_saves_expenses_when_necessary(self):
 		self.client.get('/')
@@ -90,3 +90,14 @@ class ExpenseModelTest(TestCase):
 		self.assertEqual(saved_expense.location, "The Location")
 		self.assertEqual(saved_expense.date, "1-2-2001")
 		
+		
+class ListViewTest(TestCase):
+
+	def test_displays_all_items(self):
+		Expense.objects.create(location='Loc 1')
+		Expense.objects.create(location='Loc 2')
+		
+		response = self.client.get('/spends/the-only-list/')
+		
+		self.assertContains(response, 'Loc 1')
+		self.assertContains(response, 'Loc 2')
