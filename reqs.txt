@@ -75,18 +75,33 @@ Python List Comprehension
 Example:
 odd_squares = [ x**2 for x in range(10) if x % 2 == 1 ]
 
+Moving (Renaming) things so git knows it happened!
+git mv 
+
+
+Django has a "LiveServerTestCas" to use a test db for functional tests
+
+
+http://localhost:8000
+
 
 TODOs:
 =======
 TODO: Learn difference between django project and django app
 TODO: Need to review Selenium for how to instrument items in the browser!
 
-ensure expenses are named properly, models, views, tests etc.
+
 Expense needs date, where, category, amount... only has text!
 support more than one group of expenses
 support accounts
 support sharing accounts
 clean up after FT runs
+
+Date needs to be restricted to dates
+Date needs to default to today
+Add What/Category
+Add Amount
+
 
 Expense
 --location
@@ -96,3 +111,10 @@ Expense
 
 
 
+Book Todo
+Adjust Model so that items are associated with different lists
+Add unique URLs for each list
+Add a URL for creating a new list via POST
+Add URLS for adding a new item to an existing list via POST
+
+Worked through 7.1-7.5
