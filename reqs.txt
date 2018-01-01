@@ -114,20 +114,21 @@ Expense
 Book Todo
 Adjust Model so that items are associated with different lists
 Add unique URLs for each list
-Add a URL for creating a new list via POST
 Add URLS for adding a new item to an existing list via POST
 
 Worked through 7.1-7.5
 
 REST like API
 view a list
-/lists/<list identifier>/
+/spends/<spend identifier>/
 GET
 
-create new list
-/lists/new
+create new spend it group
+/spends/new
 POST
 
-add a new item
-/lists/<list identifier>/add_item
+add a new expense
+/spends/<spend identifier>/add_expense
 POST
+
+No Trailing Slash => Action URL - modify DB.

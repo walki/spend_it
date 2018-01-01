@@ -15,33 +15,6 @@ class HomePageTest(TestCase):
 		response = self.client.get('/')
 		self.assertTemplateUsed(response, 'home.html')
 
-	def test_can_save_a_POST_request(self):
-		self.client.post('/', data={'expense_where': 'A new expense'})
-
-		self.assertEqual(Expense.objects.count(), 1)
-		new_expense = Expense.objects.first()
-		self.assertEqual(new_expense.location, "A new expense")
-
-	def test_can_save_a_POST_request_with_date(self):
-		self.client.post('/', data={'expense_where': 'A new expense', 'expense_date': '12-31-2001'})
-
-		self.assertEqual(Expense.objects.count(), 1)
-		new_expense = Expense.objects.first()
-		self.assertEqual(new_expense.date, '12-31-2001')
-
-
-	def test_redirects_after_a_POST_request(self):
-		response = self.client.post('/', data={'expense_where': 'A new expense'})
-
-		self.assertEqual(response.status_code, 302)
-		self.assertEqual(response['location'], '/spends/the-only-list/')
-
-	def test_only_saves_expenses_when_necessary(self):
-		self.client.get('/')
-		self.assertEqual(Expense.objects.count(), 0)
-
-
-
 
 class ExpenseModelTest(TestCase):
 
@@ -98,3 +71,25 @@ class ListViewTest(TestCase):
 
 		self.assertIn('exp 1', response.content.decode())
 		self.assertIn('1-10-2018', response.content.decode())
+
+
+class NewExpenseTest(TestCase):
+
+	def test_can_save_a_POST_request(self):
+		self.client.post('/spends/new', data={'expense_where': 'A new expense'})
+
+		self.assertEqual(Expense.objects.count(), 1)
+		new_expense = Expense.objects.first()
+		self.assertEqual(new_expense.location, "A new expense")
+
+	def test_can_save_a_POST_request_with_date(self):
+		self.client.post('/spends/new', data={'expense_where': 'A new expense', 'expense_date': '12-31-2001'})
+
+		self.assertEqual(Expense.objects.count(), 1)
+		new_expense = Expense.objects.first()
+		self.assertEqual(new_expense.date, '12-31-2001')
+
+
+	def test_redirects_after_a_POST_request(self):
+		response = self.client.post('/spends/new', data={'expense_where': 'A new expense'})
+		self.assertRedirects(response, '/spends/the-only-list/')
