@@ -6,13 +6,11 @@ from spend.models import Expense
 # Create your views here.
 def home_page(request):
 	if request.method == 'POST':
-		Expense.objects.create(location = request.POST['expense_where'], 
+		Expense.objects.create(location = request.POST['expense_where'],
 								date = request.POST.get('expense_date',''))
 		return redirect('/spends/the-only-list/')
-	
-	expenses = Expense.objects.all()
-	return render(request, 'home.html', { 'expenses': expenses })
-	
+	return render(request, 'home.html')
+
 def view_list(request):
 	expenses = Expense.objects.all()
-	return render(request, 'home.html', { 'expenses': expenses })
+	return render(request, 'expense.html', { 'expenses': expenses })

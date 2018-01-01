@@ -3,12 +3,17 @@
 		<title>Spend It!</title>
 	</head>
 	<body>
-		<h1>Let's Start a new Spend It!</h1>
+		<h1>Let's Spend It!</h1>
 		<form method="POST" action="/">
 			<input name="expense_date" id="id_new_date" placeholder="Enter a date" />
 			<input name="expense_where" id="id_new_expense" placeholder="Enter an expense"/>
 			<input type="submit"/>
 			{% csrf_token %}
 		</form>
+		<table id="id_expense_table">
+			{% for expense in expenses %}
+			<tr><td>{{ forloop.counter }}: {{ expense.date }} {{ expense.location }} 10.00</td></tr>
+			{% endfor %}
+		</table>
 	</body>
 </html>
