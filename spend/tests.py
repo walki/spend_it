@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 
 from spend.views import home_page
-from spend.models import Expense
+from spend.models import Expense, ExpenseList
 
 class HomePageTest(TestCase):
 
@@ -16,16 +16,24 @@ class HomePageTest(TestCase):
 		self.assertTemplateUsed(response, 'home.html')
 
 
-class ExpenseModelTest(TestCase):
+class ListAndExpenseModelTest(TestCase):
 
 	def test_saving_and_retreiving_expense_locations(self):
+		expense_list = ExpenseList()
+		expense_list.save()
+
 		first_expense = Expense()
 		first_expense.location = 'The first (ever) expense!'
+		first_expense.expense_list = expense_list
 		first_expense.save()
 
 		second_expense = Expense()
 		second_expense.location = 'The Second'
+		second_expense.expense_list = expense_list
 		second_expense.save()
+
+		saved_expense_list = ExpenseList.objects.first()
+		self.assertEqual(saved_expense_list, expense_list)
 
 		saved_expenses = Expense.objects.all()
 		self.assertEqual(saved_expenses.count(), 2)
@@ -33,12 +41,18 @@ class ExpenseModelTest(TestCase):
 		first_saved_expense = saved_expenses[0]
 		second_saved_expense = saved_expenses[1]
 		self.assertEqual(first_saved_expense.location, 'The first (ever) expense!')
+		self.assertEqual(first_saved_expense.expense_list, expense_list)
 		self.assertEqual(second_saved_expense.location, 'The Second')
+		self.assertEqual(second_saved_expense.expense_list, expense_list)
 
 	def test_saving_and_retrieving_expense_with_location_and_date(self):
+		expense_list = ExpenseList()
+		expense_list.save()
+
 		expense = Expense()
 		expense.location = "The Location"
 		expense.date = "1-2-2001"
+		expense.expense_list = expense_list
 		expense.save()
 
 		saved_expenses = Expense.objects.all()
@@ -47,6 +61,7 @@ class ExpenseModelTest(TestCase):
 
 		self.assertEqual(saved_expense.location, "The Location")
 		self.assertEqual(saved_expense.date, "1-2-2001")
+		self.assertEqual(saved_expense.expense_list, expense_list)
 
 
 class ListViewTest(TestCase):
@@ -56,8 +71,9 @@ class ListViewTest(TestCase):
 		self.assertTemplateUsed(response, 'expense.html')
 
 	def test_displays_all_items(self):
-		Expense.objects.create(location='Loc 1')
-		Expense.objects.create(location='Loc 2')
+		exp_list = ExpenseList.objects.create()
+		Expense.objects.create(location='Loc 1', expense_list = exp_list )
+		Expense.objects.create(location='Loc 2', expense_list = exp_list )
 
 		response = self.client.get('/spends/the-only-list/')
 
@@ -65,7 +81,8 @@ class ListViewTest(TestCase):
 		self.assertContains(response, 'Loc 2')
 
 	def test_displays_expenses_with_dates(self):
-		Expense.objects.create(location='exp 1', date='1-10-2018')
+		exp_list = ExpenseList.objects.create()
+		Expense.objects.create(location='exp 1', date='1-10-2018', expense_list = exp_list)
 
 		response = self.client.get('/spends/the-only-list/')
 
