@@ -4,14 +4,16 @@
 	</head>
 	<body>
 		<h1>Let's Spend It!</h1>
-		<form method="POST" action="/spends/new">
+		<form method="POST" action="/spends/{{ expense_list.id }}/add_expense">
 			<input name="expense_date" id="id_new_date" placeholder="Enter a date" />
 			<input name="expense_where" id="id_new_expense" placeholder="Enter an expense"/>
 			<input type="submit"/>
 			{% csrf_token %}
 		</form>
+    <p>Count: {{ expense_list.expense_set.count }}</p>
+
 		<table id="id_expense_table">
-			{% for expense in expenses %}
+			{% for expense in expense_list.expense_set.all %}
 			<tr><td>{{ forloop.counter }}: {{ expense.date }} {{ expense.location }} 10.00</td></tr>
 			{% endfor %}
 		</table>

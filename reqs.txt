@@ -112,9 +112,10 @@ Expense
 
 
 Book Todo
-Adjust Model so that items are associated with different lists
-Add unique URLs for each list
-Add URLS for adding a new item to an existing list via POST
+refactor away some duplication in urls.py
+
+rename expense_where / location
+		expense_date ...
 
 Worked through 7.1-7.5
 
@@ -132,3 +133,6 @@ add a new expense
 POST
 
 No Trailing Slash => Action URL - modify DB.
+
+Look into Django Contexts to test with tremplates
+Look into Django .<relatedobjectname>_set ... grrr

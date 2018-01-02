@@ -7,13 +7,20 @@ from spend.models import Expense, ExpenseList
 def home_page(request):
 	return render(request, 'home.html')
 
-def view_list(request):
-	expenses = Expense.objects.all()
-	return render(request, 'expense.html', { 'expenses': expenses })
+def view_list(request, expense_list_id):
+	exp_list = ExpenseList.objects.get(id = expense_list_id)
+	return render(request, 'expense.html', { 'expense_list': exp_list })
 
 def new_expense_list(request):
 	exp_list = ExpenseList.objects.create()
 	Expense.objects.create(location = request.POST['expense_where'],
 							date = request.POST.get('expense_date',''),
 							expense_list = exp_list)
-	return redirect('/spends/the-only-list/')
+	return redirect(f'/spends/{exp_list.id}/')
+
+def add_expense(request, expense_list_id):
+	exp_list = ExpenseList.objects.get( id = expense_list_id)
+	Expense.objects.create(location = request.POST['expense_where'],
+							date = request.POST.get('expense_date',''),
+							expense_list = exp_list)
+	return redirect(f'/spends/{exp_list.id}/')
